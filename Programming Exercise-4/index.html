@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stack Operations</title>
+</head>
+<body>
+
+  <h1>Stack Operations</h1>
+
+  <script>
+    class Stack {
+      constructor() {
+        this.items = [];
+      }
+
+      push(element) {
+        this.items.push(element);
+      }
+
+      pop() {
+        if (this.isEmpty()) {
+          return "Underflow";
+        }
+        return this.items.pop();
+      }
+
+      peek() {
+        if (this.isEmpty()) {
+          return "No elements in Stack";
+        }
+        return this.items[this.items.length - 1];
+      }
+
+      isEmpty() {
+        return this.items.length === 0;
+      }
+
+      printStack() {
+        let str = "";
+        for (let i = 0; i < this.items.length; i++) {
+          str += this.items[i] + " ";
+        }
+        return str;
+      }
+    }
+
+    // Next Greater Element
+    function nextGreaterElements(nums) {
+      const result = new Array(nums.length).fill(-1);
+      const stack = []; 
+
+      for (let i = 0; i < nums.length * 2; i++) { 
+        const num = nums[i % nums.length]; 
+
+        while (stack.length > 0 && nums[stack[stack.length - 1]] < num) {
+          result[stack.pop()] = num; 
+        }
+
+        stack.push(i % nums.length); 
+      }
+
+      return result;
+    }
+
+    // Balanced Parentheses
+    function isBalanced(str) {
+      const stack = [];
+      const opening = ['(', '{', '['];
+      const closing = [')', '}', ']'];
+
+      for (let i = 0; i < str.length; i++) {
+        if (opening.includes(str[i])) {
+          stack.push(str[i]); 
+        } else if (closing.includes(str[i])) {
+          const top = stack.pop(); 
+          if (!top || opening.indexOf(top) !== closing.indexOf(str[i])) {
+            return false; 
+          }
+        }
+      }
+
+      return stack.length === 0; 
+    }
+
+    // Reverse String
+    function reverseString(str) {
+      const stack = new Stack();
+      let reversedStr = "";
+
+      for (let i = 0; i < str.length; i++) {
+        stack.push(str[i]);
+      }
+
+      while (!stack.isEmpty()) {
+        reversedStr += stack.pop();
+      }
+
+      return reversedStr;
+    }
+
+    // Example Usage
+    const nums = [1, 3, 2, 4];
+    console.log("Next Greater Elements:", nextGreaterElements(nums)); 
+
+    const str1 = "()[]{}";
+    const str2 = "([)]";
+    console.log("Is Balanced (str1):", isBalanced(str1));
+    console.log("Is Balanced (str2):", isBalanced(str2));
+
+    const inputStr = "hello";
+    console.log("Reversed String:", reverseString(inputStr)); 
+
+  </script>
+
+</body>
+</html>
